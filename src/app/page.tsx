@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import JoinModal from "../components/join-modal";
 import Timer from "../components/timer";
 import TypingBox from "../components/typing-box";
@@ -29,7 +30,6 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!socket) return;
-
     const handlePlayers = (players: any[]) => setPlayers(players);
     const handleInit = (data: any[]) => setPlayers(data);
 
@@ -52,7 +52,6 @@ export default function HomePage() {
   const handleInputChange = (text: string) => {
     if (!socket) return;
     setInput(text);
-
     const wpm = calculateWPM(text, sentence);
     const accuracy = calculateAccuracy(text, sentence);
 
@@ -66,25 +65,26 @@ export default function HomePage() {
   };
 
   return (
-    <main className="max-w-3xl mx-auto p-4">
+    <main>
       {!joined && <JoinModal onJoin={handleJoin} />}
 
       {joined && (
         <>
           {roundEnded && (
-            <div className="bg-yellow-200 text-center p-2 rounded mb-2">
+            <div className="round-ended">
               Round ended! New round starting...
             </div>
           )}
 
           <Timer duration={roundDuration} onEnd={handleRoundEnd} />
 
-          <div className="my-4 font-mono text-lg">{sentence}</div>
+          <div style={{ marginBottom: '1rem', fontFamily: 'Roboto Mono', fontSize: '1.1rem' }}>
+            {sentence}
+          </div>
 
           <TypingBox sentence={sentence} value={input} onChange={handleInputChange} />
 
           <Leaderboard players={players} />
-          <pre>{JSON.stringify(players, null, 2)}</pre>
         </>
       )}
     </main>

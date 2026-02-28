@@ -1,10 +1,133 @@
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto+Mono&display=swap');
 
 body {
-  font-family: system-ui, sans-serif;
-    background-color: #f9fafb;
+  font-family: 'Inter', sans-serif;
+  background-color: #f0f4f8;
+  color: #1e293b;
+  margin: 0;
+  padding: 0;
+}
 
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h2 {
+  font-family: 'Inter', sans-serif;
+}
+
+input, button {
+  font-family: inherit;
+}
+
+/* Join Modal */
+.join-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.join-modal {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.join-modal input {
+  padding: 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.join-modal button {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.join-modal button:hover {
+  background-color: #3b82f6;
+}
+
+/* Timer */
+.timer {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+/* TypingBox */
+.typing-box {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  font-family: 'Roboto Mono', monospace;
+  margin-bottom: 1rem;
+}
+
+/* Leaderboard Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #cbd5e1;
+  text-align: left;
+}
+
+th {
+  background-color: #e0e7ff;
+  font-weight: 600;
+}
+
+td.font-mono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Round Ended Banner */
+.round-ended {
+  background-color: #fef3c7;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  main {
+    padding: 0.5rem;
+  }
+  .join-modal {
+    padding: 1rem;
+  }
+  table, th, td {
+    font-size: 0.9rem;
+  }
+  .typing-box {
+    font-size: 1rem;
+  }
 }
