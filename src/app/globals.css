@@ -116,6 +116,10 @@ td.font-mono {
   font-weight: 600;
 }
 
+.highlight-row {
+  background-color: lightskyblue;
+  font-weight: bold;
+}
 /* Responsive */
 @media (max-width: 600px) {
   main {

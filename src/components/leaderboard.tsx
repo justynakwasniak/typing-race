@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 type Player = {
   name: string;
@@ -8,10 +8,14 @@ type Player = {
 };
 
 type LeaderboardProps = {
-  players?: Player[]; // opcjonalne
+  players?: Player[];
+  currentPlayer?: string;
 };
 
-export default function Leaderboard({ players = [] }: LeaderboardProps) {
+export default function Leaderboard({
+  players = [],
+  currentPlayer = "",
+}: LeaderboardProps) {
   return (
     <table>
       <thead>
@@ -23,14 +27,17 @@ export default function Leaderboard({ players = [] }: LeaderboardProps) {
         </tr>
       </thead>
       <tbody>
-        {players.map((p) => (
-          <tr key={p.name}>
-            <td className="font-mono">{p.progress}</td>
-            <td>{p.name}</td>
-            <td>{p.wpm}</td>
-            <td>{(p.accuracy * 100).toFixed(0)}%</td>
-          </tr>
-        ))}
+        {players.map((p) => {
+          const isMe = p.name === currentPlayer;
+          return (
+            <tr key={p.name} className={isMe ? "highlight-row" : ""}>
+              <td className="font-mono">{p.progress}</td>
+              <td>{p.name}</td>
+              <td>{p.wpm}</td>
+              <td>{(p.accuracy * 100).toFixed(0)}%</td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

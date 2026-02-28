@@ -21,7 +21,7 @@ export default function HomePage() {
   const [sentence, setSentence] = useState("");
   const [roundId, setRoundId] = useState(0);
 
-  const roundDuration = 60;
+  const roundDuration = 30;
 
   useEffect(() => {
     fetch("/api/socket").then(() => {
@@ -118,7 +118,7 @@ export default function HomePage() {
             onChange={handleInputChange}
           />
 
-          <Leaderboard players={players} />
+          <Leaderboard players={players} currentPlayer={playerName} />
         </>
       )}
     </main>
