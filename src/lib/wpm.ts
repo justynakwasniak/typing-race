@@ -1,6 +1,9 @@
-export function calculateWPM(text: string, sentence: string) {
+export function calculateWPM(text: string, sentence?: string) {
+  if (!sentence) return 0;
+
   const typedWords = text.trim().split(/\s+/);
   const sentenceWords = sentence.split(/\s+/);
+
   let correctCount = 0;
 
   typedWords.forEach((word, i) => {

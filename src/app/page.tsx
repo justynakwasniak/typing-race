@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import JoinModal from "../components/join-modal";
 import Timer from "../components/timer";
@@ -9,7 +9,7 @@ import { calculateAccuracy } from "../lib/accuracy";
 import { initSocket } from "../lib/socket";
 import { useEffect, useState } from "react";
 import type { Player } from "../components/leaderboard";
-import {Socket} from "socket.io-client";
+import { Socket } from "socket.io-client";
 
 export default function HomePage() {
   const [joined, setJoined] = useState(false);
@@ -18,8 +18,9 @@ export default function HomePage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [roundEnded, setRoundEnded] = useState(false);
+  const [sentence, setSentence] = useState("");
+  const [roundId, setRoundId] = useState(0);
 
-  const sentence = "The quick brown fox jumps over the lazy dog";
   const roundDuration = 60;
 
   useEffect(() => {
@@ -31,15 +32,32 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!socket) return;
-    const handlePlayers = (players: Player[]) => setPlayers(players);
-    const handleInit = (data: Player[]) => setPlayers(data);
 
-    socket.on("players-update", handlePlayers);
+    const handleInit = (data: any) => {
+      console.log("INIT DATA:", data);
+      setPlayers(data.players);
+      setSentence(data.sentence);
+    };
+
+    const handlePlayers = (players: Player[]) => {
+      setPlayers(players);
+    };
+
+    const handleNewRound = (data: { sentence: string }) => {
+      setSentence(data.sentence);
+      setInput("");
+      setRoundEnded(false);
+      setRoundId((prev) => prev + 1);
+    };
+
     socket.on("init", handleInit);
+    socket.on("players-update", handlePlayers);
+    socket.on("new-round", handleNewRound);
 
     return () => {
-      socket.off("players-update", handlePlayers);
       socket.off("init", handleInit);
+      socket.off("players-update", handlePlayers);
+      socket.off("new-round", handleNewRound);
     };
   }, [socket]);
 
@@ -52,7 +70,9 @@ export default function HomePage() {
 
   const handleInputChange = (text: string): void => {
     if (!socket) return;
+
     setInput(text);
+
     const wpm = calculateWPM(text, sentence);
     const accuracy = calculateAccuracy(text, sentence);
 
@@ -60,9 +80,9 @@ export default function HomePage() {
   };
 
   const handleRoundEnd = (): void => {
-    setInput("");
+    if (!socket) return;
     setRoundEnded(true);
-    setTimeout(() => setRoundEnded(false), 2000);
+    socket.emit("end-round");
   };
 
   return (
@@ -77,13 +97,26 @@ export default function HomePage() {
             </div>
           )}
 
-          <Timer duration={roundDuration} onEnd={handleRoundEnd} />
-
-          <div style={{ marginBottom: '1rem', fontFamily: 'Roboto Mono', fontSize: '1.1rem' }}>
+          <Timer
+            key={roundId}
+            duration={roundDuration}
+            onEnd={handleRoundEnd}
+          />
+          <div
+            style={{
+              marginBottom: "1rem",
+              fontFamily: "Roboto Mono",
+              fontSize: "1.1rem",
+            }}
+          >
             {sentence}
           </div>
 
-          <TypingBox sentence={sentence} value={input} onChange={handleInputChange} />
+          <TypingBox
+            sentence={sentence}
+            value={input}
+            onChange={handleInputChange}
+          />
 
           <Leaderboard players={players} />
         </>

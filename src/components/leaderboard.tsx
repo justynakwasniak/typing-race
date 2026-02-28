@@ -8,10 +8,10 @@ type Player = {
 };
 
 type LeaderboardProps = {
-  players: Player[];
+  players?: Player[]; // opcjonalne
 };
 
-export default function Leaderboard({ players }: LeaderboardProps) {
+export default function Leaderboard({ players = [] }: LeaderboardProps) {
   return (
     <table>
       <thead>
@@ -23,8 +23,8 @@ export default function Leaderboard({ players }: LeaderboardProps) {
         </tr>
       </thead>
       <tbody>
-       {players.map((p) => (
-  <tr key={p.name}>
+        {players.map((p) => (
+          <tr key={p.name}>
             <td className="font-mono">{p.progress}</td>
             <td>{p.name}</td>
             <td>{p.wpm}</td>
