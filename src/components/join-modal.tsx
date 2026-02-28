@@ -7,12 +7,11 @@ type JoinModalProps = {
 };
 
 export default function JoinModal({ onJoin }: JoinModalProps) {
-  const [name, setName] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (name.trim()) onJoin(name.trim());
-  };
+const [name, setName] = useState<string>("");
+ const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  e.preventDefault();
+  if (name.trim()) onJoin(name.trim());
+};
 
   return (
     <div className="join-modal-overlay">

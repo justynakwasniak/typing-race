@@ -8,14 +8,15 @@ import { calculateWPM } from "../lib/wpm";
 import { calculateAccuracy } from "../lib/accuracy";
 import { initSocket } from "../lib/socket";
 import { useEffect, useState } from "react";
-import type { Player } from "../types/player";
+import type { Player } from "../components/leaderboard";
+import {Socket} from "socket.io-client";
 
 export default function HomePage() {
   const [joined, setJoined] = useState(false);
   const [playerName, setPlayerName] = useState("");
   const [input, setInput] = useState("");
   const [players, setPlayers] = useState<Player[]>([]);
-  const [socket, setSocket] = useState<any>(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [roundEnded, setRoundEnded] = useState(false);
 
   const sentence = "The quick brown fox jumps over the lazy dog";
@@ -30,8 +31,8 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!socket) return;
-    const handlePlayers = (players: any[]) => setPlayers(players);
-    const handleInit = (data: any[]) => setPlayers(data);
+    const handlePlayers = (players: Player[]) => setPlayers(players);
+    const handleInit = (data: Player[]) => setPlayers(data);
 
     socket.on("players-update", handlePlayers);
     socket.on("init", handleInit);
@@ -42,14 +43,14 @@ export default function HomePage() {
     };
   }, [socket]);
 
-  const handleJoin = (name: string) => {
+  const handleJoin = (name: string): void => {
     if (!socket) return;
     setPlayerName(name);
     setJoined(true);
     socket.emit("join", name);
   };
 
-  const handleInputChange = (text: string) => {
+  const handleInputChange = (text: string): void => {
     if (!socket) return;
     setInput(text);
     const wpm = calculateWPM(text, sentence);
@@ -58,7 +59,7 @@ export default function HomePage() {
     socket.emit("progress", { name: playerName, text, wpm, accuracy });
   };
 
-  const handleRoundEnd = () => {
+  const handleRoundEnd = (): void => {
     setInput("");
     setRoundEnded(true);
     setTimeout(() => setRoundEnded(false), 2000);

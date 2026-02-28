@@ -23,8 +23,8 @@ export default function Leaderboard({ players }: LeaderboardProps) {
         </tr>
       </thead>
       <tbody>
-        {players.map((p, i) => (
-          <tr key={i}>
+       {players.map((p) => (
+  <tr key={p.name}>
             <td className="font-mono">{p.progress}</td>
             <td>{p.name}</td>
             <td>{p.wpm}</td>

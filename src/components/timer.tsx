@@ -11,13 +11,19 @@ export default function Timer({ duration, onEnd }: TimerProps) {
   const [timeLeft, setTimeLeft] = useState(duration);
 
   useEffect(() => {
-    if (timeLeft <= 0) {
-      onEnd?.();
-      return;
-    }
-    const interval = setInterval(() => setTimeLeft(t => t - 1), 1000);
-    return () => clearInterval(interval);
-  }, [timeLeft, onEnd]);
+  const interval = setInterval(() => {
+    setTimeLeft(t => {
+      if (t <= 1) {
+        onEnd?.();
+        clearInterval(interval);
+        return 0;
+      }
+      return t - 1;
+    });
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [onEnd]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
