@@ -21,7 +21,7 @@ export default function HomePage() {
   const [sentence, setSentence] = useState("");
   const [roundId, setRoundId] = useState(0);
 
-  const roundDuration = 30;
+  const roundDuration = 15;
 
   useEffect(() => {
     fetch("/api/socket").then(() => {
