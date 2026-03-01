@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from "react";
+import type { JoinModalProps } from "@/types/join-modal.model";
 
-type JoinModalProps = {
-  onJoin: (name: string) => void;
-};
 
 export default function JoinModal({ onJoin }: JoinModalProps) {
 const [name, setName] = useState<string>("");

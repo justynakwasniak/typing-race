@@ -23,6 +23,30 @@ export default function HomePage() {
 
   const roundDuration = 15;
 
+  const handleJoin = (name: string): void => {
+    if (!socket) return;
+    setPlayerName(name);
+    setJoined(true);
+    socket.emit("join", name);
+  };
+
+  const handleInputChange = (text: string): void => {
+    if (!socket) return;
+
+    setInput(text);
+
+    const wpm = calculateWPM(text, sentence);
+    const accuracy = calculateAccuracy(text, sentence);
+
+    socket.emit("progress", { name: playerName, text, wpm, accuracy });
+  };
+
+  const handleRoundEnd = (): void => {
+    if (!socket) return;
+    setRoundEnded(true);
+    socket.emit("end-round");
+  };
+
   useEffect(() => {
     fetch("/api/socket").then(() => {
       const s = initSocket();
@@ -60,30 +84,6 @@ export default function HomePage() {
       socket.off("new-round", handleNewRound);
     };
   }, [socket]);
-
-  const handleJoin = (name: string): void => {
-    if (!socket) return;
-    setPlayerName(name);
-    setJoined(true);
-    socket.emit("join", name);
-  };
-
-  const handleInputChange = (text: string): void => {
-    if (!socket) return;
-
-    setInput(text);
-
-    const wpm = calculateWPM(text, sentence);
-    const accuracy = calculateAccuracy(text, sentence);
-
-    socket.emit("progress", { name: playerName, text, wpm, accuracy });
-  };
-
-  const handleRoundEnd = (): void => {
-    if (!socket) return;
-    setRoundEnded(true);
-    socket.emit("end-round");
-  };
 
   return (
     <main>
@@ -124,3 +124,4 @@ export default function HomePage() {
     </main>
   );
 }
+

@@ -1,10 +1,6 @@
 'use client';
 
-type TypingBoxProps = {
-  sentence: string;
-  onChange: (text: string) => void;
-  value: string;
-};
+import { TypingBoxProps } from "../types/typing-box.model";
 
 export default function TypingBox({ sentence, value, onChange }: TypingBoxProps) {
   return (

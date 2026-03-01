@@ -1,35 +1,12 @@
 import { Server } from "socket.io";
 import type { NextApiRequest } from "next";
 import type { NextApiResponseServerIO } from "@/types/next";
-
-type Player = {
-  id: string;
-  name: string;
-  progress: string;
-  wpm: number;
-  accuracy: number;
-};
-
-type ProgressPayload = {
-  name: string;
-  text: string;
-  wpm: number;
-  accuracy: number;
-};
-
-type NewRoundPayload = {
-  sentence: string;
-};
-
-const sentences = [
-  "The quick brown fox jumps over the lazy dog",
-  "Typing fast requires practice and focus",
-  "WebSocket makes real time communication possible",
-];
-
-function getRandomSentence(): string {
-  return sentences[Math.floor(Math.random() * sentences.length)];
-}
+import type {
+  Player,
+  ProgressPayload,
+  NewRoundPayload,
+} from "@/types/socket.model";
+import { getRandomSentence } from "@/lib/sentences";
 
 let players: Player[] = [];
 let currentSentence: string = getRandomSentence();
@@ -40,7 +17,7 @@ export const config = {
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponseServerIO
+  res: NextApiResponseServerIO,
 ) {
   if (!res.socket.server.io) {
     console.log("Initializing Socket.IO on the server...");
@@ -85,7 +62,7 @@ export default function handler(
                 wpm: data.wpm,
                 accuracy: data.accuracy,
               }
-            : p
+            : p,
         );
 
         io.emit("players-update", players);
