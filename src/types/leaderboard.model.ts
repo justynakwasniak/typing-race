@@ -3,5 +3,6 @@ export type Player = {
   progress: string;
   wpm: number;
   accuracy: number;
+  id: string;
 };
 

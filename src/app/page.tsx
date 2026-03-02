@@ -6,33 +6,36 @@ import TypingBox from "../components/typing-box";
 import Leaderboard from "../components/leaderboard";
 import { calculateWPM } from "../lib/wpm";
 import { calculateAccuracy } from "../lib/accuracy";
-import { initSocket } from "../lib/socket";
-import { useEffect, useState } from "react";
-import type { Player } from "../components/leaderboard";
-import { Socket } from "socket.io-client";
+import { GameProvider, useGame } from "../context/GameContext";
+import { useState } from "react";
 
-export default function HomePage() {
+function Home() {
+  const {
+    socket,
+    players,
+    playerName,
+    setPlayerName,
+    input,
+    setInput,
+    sentence,
+    roundEnded,
+    setRoundEnded,
+    roundId,
+    setRoundId,
+  } = useGame();
+
   const [joined, setJoined] = useState(false);
-  const [playerName, setPlayerName] = useState("");
-  const [input, setInput] = useState("");
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [roundEnded, setRoundEnded] = useState(false);
-  const [sentence, setSentence] = useState("");
-  const [roundId, setRoundId] = useState(0);
+  const roundDuration = 60;
 
-  const roundDuration = 15;
-
-  const handleJoin = (name: string): void => {
+  const handleJoin = (name: string) => {
     if (!socket) return;
     setPlayerName(name);
     setJoined(true);
     socket.emit("join", name);
   };
 
-  const handleInputChange = (text: string): void => {
+  const handleInputChange = (text: string) => {
     if (!socket) return;
-
     setInput(text);
 
     const wpm = calculateWPM(text, sentence);
@@ -41,49 +44,11 @@ export default function HomePage() {
     socket.emit("progress", { name: playerName, text, wpm, accuracy });
   };
 
-  const handleRoundEnd = (): void => {
+  const handleRoundEnd = () => {
     if (!socket) return;
     setRoundEnded(true);
     socket.emit("end-round");
   };
-
-  useEffect(() => {
-    fetch("/api/socket").then(() => {
-      const s = initSocket();
-      setSocket(s);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!socket) return;
-
-    const handleInit = (data: any) => {
-      console.log("INIT DATA:", data);
-      setPlayers(data.players);
-      setSentence(data.sentence);
-    };
-
-    const handlePlayers = (players: Player[]) => {
-      setPlayers(players);
-    };
-
-    const handleNewRound = (data: { sentence: string }) => {
-      setSentence(data.sentence);
-      setInput("");
-      setRoundEnded(false);
-      setRoundId((prev) => prev + 1);
-    };
-
-    socket.on("init", handleInit);
-    socket.on("players-update", handlePlayers);
-    socket.on("new-round", handleNewRound);
-
-    return () => {
-      socket.off("init", handleInit);
-      socket.off("players-update", handlePlayers);
-      socket.off("new-round", handleNewRound);
-    };
-  }, [socket]);
 
   return (
     <main>
@@ -97,26 +62,13 @@ export default function HomePage() {
             </div>
           )}
 
-          <Timer
-            key={roundId}
-            duration={roundDuration}
-            onEnd={handleRoundEnd}
-          />
-          <div
-            style={{
-              marginBottom: "1rem",
-              fontFamily: "Roboto Mono",
-              fontSize: "1.1rem",
-            }}
-          >
+          <Timer key={roundId} duration={roundDuration} onEnd={handleRoundEnd} />
+
+          <div style={{ marginBottom: "1rem", fontFamily: "Roboto Mono", fontSize: "1.1rem" }}>
             {sentence}
           </div>
 
-          <TypingBox
-            sentence={sentence}
-            value={input}
-            onChange={handleInputChange}
-          />
+          <TypingBox sentence={sentence} value={input} onChange={handleInputChange} />
 
           <Leaderboard players={players} currentPlayer={playerName} />
         </>
@@ -125,3 +77,10 @@ export default function HomePage() {
   );
 }
 
+export default function HomePage() {
+  return (
+    <GameProvider>
+      <Home />
+    </GameProvider>
+  );
+}
