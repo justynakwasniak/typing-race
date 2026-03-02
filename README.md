@@ -73,35 +73,12 @@ Start typing
 Watch the live leaderboard update in real time
 
 -------------------------------------------
-Project Structure:
-/app
-  page.tsx            → main game logic
-  globals.css         
-  layout.tsx
-
-/components
-  join-modal.tsx      → nickname modal
-  timer.tsx           → countdown timer
-  typing-box.tsx      → typing input
-  leaderboard.tsx     → ranking table
-
-/lib
-  socket.ts           → Socket.IO client
-  wpm.ts              → calculate WPM
-  accuracy.ts         → calculate accuracy
-
-/pages/api
-  socket.ts           → Socket.IO server
-
-/types
- next.d.ts
- -------------------------------------
 
  Game Logic:
 
 The round time is defined in page.tsx:
 
-const roundDuration = 30;
+const roundDuration = 60;
 
 When the timer ends:
 
