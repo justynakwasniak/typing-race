@@ -1,23 +1,16 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 import { initSocket } from "../lib/socket";
 import type { Player } from "../components/leaderboard";
 import { Socket } from "socket.io-client";
-
-type GameContextType = {
-  socket: Socket | null;
-  players: Player[];
-  playerName: string;
-  setPlayerName: (name: string) => void;
-  input: string;
-  setInput: (text: string) => void;
-  sentence: string;
-  roundEnded: boolean;
-  setRoundEnded: (ended: boolean) => void;
-  roundId: number;
-  setRoundId: (id: number) => void;
-};
+import { GameContextType } from "../types/games.model";
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 

@@ -1,8 +1,12 @@
-'use client';
+"use client";
 
 import { TypingBoxProps } from "../types/typing-box.model";
 
-export default function TypingBox({ sentence, value, onChange }: TypingBoxProps) {
+export default function TypingBox({
+  sentence,
+  value,
+  onChange,
+}: TypingBoxProps) {
   return (
     <input
       type="text"

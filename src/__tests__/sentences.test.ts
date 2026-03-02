@@ -22,9 +22,7 @@ describe("sentences utilities", () => {
 
     addSentence(newSentence);
 
-    const results = Array.from({ length: 20 }, () =>
-      getRandomSentence()
-    );
+    const results = Array.from({ length: 20 }, () => getRandomSentence());
 
     expect(results).toContain(newSentence);
   });

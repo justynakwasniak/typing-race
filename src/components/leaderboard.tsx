@@ -1,10 +1,4 @@
-
-import type { Player } from "@/types/leaderboard.model";
-
-export type LeaderboardProps = {
-  players?: Player[];
-  currentPlayer?: string;
-};
+import type { Player, LeaderboardProps } from "@/types/leaderboard.model";
 
 export default function Leaderboard({
   players = [],
@@ -25,10 +19,7 @@ export default function Leaderboard({
           const isMe = p.name === currentPlayer;
 
           return (
-            <tr
-              key={p.id}
-              className={isMe ? "highlight-row" : ""}
-            >
+            <tr key={p.id} className={isMe ? "highlight-row" : ""}>
               <td className="font-mono">{p.progress}</td>
               <td>{p.name}</td>
               <td>{p.wpm}</td>

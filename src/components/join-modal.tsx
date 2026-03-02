@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import type { JoinModalProps } from "@/types/join-modal.model";
 
-
 export default function JoinModal({ onJoin }: JoinModalProps) {
-const [name, setName] = useState<string>("");
- const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-  e.preventDefault();
-  if (name.trim()) onJoin(name.trim());
-};
+  const [name, setName] = useState<string>("");
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    if (name.trim()) onJoin(name.trim());
+  };
 
   return (
     <div className="join-modal-overlay">

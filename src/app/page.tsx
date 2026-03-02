@@ -62,13 +62,27 @@ function Home() {
             </div>
           )}
 
-          <Timer key={roundId} duration={roundDuration} onEnd={handleRoundEnd} />
+          <Timer
+            key={roundId}
+            duration={roundDuration}
+            onEnd={handleRoundEnd}
+          />
 
-          <div style={{ marginBottom: "1rem", fontFamily: "Roboto Mono", fontSize: "1.1rem" }}>
+          <div
+            style={{
+              marginBottom: "1rem",
+              fontFamily: "Roboto Mono",
+              fontSize: "1.1rem",
+            }}
+          >
             {sentence}
           </div>
 
-          <TypingBox sentence={sentence} value={input} onChange={handleInputChange} />
+          <TypingBox
+            sentence={sentence}
+            value={input}
+            onChange={handleInputChange}
+          />
 
           <Leaderboard players={players} currentPlayer={playerName} />
         </>

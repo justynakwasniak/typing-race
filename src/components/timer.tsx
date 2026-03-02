@@ -11,7 +11,7 @@ export default function Timer({ duration, onEnd }: TimerProps) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(t => {
+      setTimeLeft((t) => {
         if (t <= 1) {
           onEndRef.current?.();
           clearInterval(interval);
@@ -29,7 +29,7 @@ export default function Timer({ duration, onEnd }: TimerProps) {
 
   return (
     <div className="timer">
-      Time left: {minutes}:{seconds.toString().padStart(2, '0')}
+      Time left: {minutes}:{seconds.toString().padStart(2, "0")}
     </div>
   );
 }

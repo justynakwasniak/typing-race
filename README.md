@@ -1,52 +1,40 @@
-Multiplayer Typing Race
+# Multiplayer Typing Race
 
-This is a simple multiplayer typing game built with Next.js, TypeScript, and Socket.IO.
+A simple **multiplayer typing game** built with **Next.js**, **TypeScript**, and **Socket.IO**.  
 
 Players join the game, type the same sentence, and compete in real time.
 
+---
 
+## How the Game Works
 
-How the Game Works
-
-The player enters a nickname.
-
-The server selects a random sentence.
-
-A timer starts (for example 15 seconds).
-
-Players type the sentence as fast and as accurately as possible.
-
-The leaderboard updates live.
-
-
+1. The player enters a nickname.
+2. The server selects a random sentence.
+3. A timer starts (e.g., 15 seconds).
+4. Players type the sentence as fast and as accurately as possible.
+5. The leaderboard updates live.
 
 When time is over:
 
-a new sentence is selected,
+- A new sentence is selected.
+- The timer resets.
+- A new round starts.
 
-the timer resets,
+The game uses **WebSockets** for real-time communication.
 
-a new round starts.
+---
 
-The game uses WebSockets for real-time communication.
+## Technologies Used
 
--------------------------------------------
+- Next.js  
+- TypeScript  
+- React Hooks  
+- Socket.IO  
+- WebSockets  
 
-Technologies:
+---
 
-Next.js
-
-TypeScript
-
-React Hooks
-
-Socket.IO
-
-WebSockets
-
------------------------------------
-
-Installation
+## Installation
 
 1. Clone the repository
 git clone https://github.com/justynakwasniak/typing-race
@@ -58,29 +46,25 @@ npm run dev
 Open your browser and go to:
 http://localhost:3000
 
--------------------------------------------
+## How to Test Multiplayer
 
-How to Test Multiplayer
+1. Open http://localhost:3000
 
-Open http://localhost:3000
+2. Open a second browser tab (or another browser)
 
-Open a second browser tab (or another browser)
+3. Enter different nicknames
 
-Enter different nicknames
+4. Start typing
 
-Start typing
+5. Watch the live leaderboard update in real time
 
-Watch the live leaderboard update in real time
+ ## Game Logic:
 
--------------------------------------------
-
- Game Logic:
-
-The round time is defined in page.tsx:
+- The round time is defined in page.tsx:
 
 const roundDuration = 60;
 
-When the timer ends:
+- When the timer ends:
 
 the client sends end-round
 
@@ -90,35 +74,30 @@ the server sends new-round
 
 the timer resets automatically
 
+## Scoring System:
+- WPM (Words Per Minute)
 
---------------------------------------------
-Scoring System:
-WPM (Words Per Minute)
+- Counts how many correct words the player typed.
 
-Counts how many correct words the player typed.
+- Accuracy
 
-Accuracy
+- Shows the percentage of correctly typed characters.
 
-Shows the percentage of correctly typed characters.
+## Features:
 
+- Real-time multiplayer
 
-----------------------------
+- Live leaderboard
 
-Features:
+- Automatic round reset
 
-Real-time multiplayer
+- Random sentences
 
-Live leaderboard
+- Highlighted current player
 
-Automatic round reset
+- Timer reset after each round
 
-Random sentences
-
-Highlighted current player
-
-Timer reset after each round
-----------------------------------------------
-Future Improvements:
+## Future Improvements:
 
 Improve WPM calculation (real time-based words per minute)
 
