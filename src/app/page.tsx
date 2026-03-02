@@ -71,7 +71,6 @@ function Home() {
           <div
             style={{
               marginBottom: "1rem",
-              fontFamily: "Roboto Mono",
               fontSize: "1.1rem",
             }}
           >
